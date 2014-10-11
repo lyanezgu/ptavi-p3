@@ -19,53 +19,59 @@ def autenticar(argument):
     return fich
 
 
-def listado(lista):
-    NumTotal = len(lista) / 2
-    Contador = 0
-    posa = 0
-    posb = 1
-    while Contador < NumTotal:
-        etiqueta = lista[posa]
-        val = lista[posb]  # contiene el atributo y el valor
-        print etiqueta + "\t",
+class KaraokeLocal(smallsmilhandler.SmallSMILHandler):
 
-        for atributo, valor in val.items():
-            if valor != "":  # cuabdo hay clave y valor
-                print atributo + "=" + '"' + valor + '"' + "\t",
+    def __init__(self, fichero):
+        parser = make_parser()
+        smallHandler = smallsmilhandler.SmallSMILHandler()
+        parser.setContentHandler(smallHandler)
+        parser.parse(open(fich))
+        self.lista = smallHandler.get_tags()
 
-        Contador = Contador + 1
-        posa = posa + 2  # se pasa de dos en dos ya que son clave y valor
-        posb = posb + 2
-        print "\n",
+    def __str__(self):
+        lista = self.lista
+        NumTotal = len(lista) / 2
+        Contador = 0
+        posa = 0
+        posb = 1
+        while Contador < NumTotal:
+            etiqueta = lista[posa]
+            val = lista[posb]  # contiene el atributo y el valor
+            print etiqueta + "\t",
 
+            for atributo, valor in val.items():
+                if valor != "":  # cuabdo hay clave y valor
+                    print atributo + "=" + '"' + valor + '"' + "\t",
 
-def hacer_local(lista):
-    NumTotal = len(lista) / 2
-    Contador = 0
-    posa = 0
-    posb = 1
-    while Contador < NumTotal:
-        etiqueta = lista[posa]
-        val = lista[posb]
-        for atributo, valor in val.items():
-            if 'src' == atributo and "http" in valor:
-                recurso = valor
-                os.system("wget -q " + recurso)
-                # separo cadena cada / quedo con el final de cadena
-                recurso = recurso.split("/")[-1]
-                val[atributo] = recurso
-        Contador = Contador + 1
-        posa = posa + 2
-        posb = posb + 2
+            Contador = Contador + 1
+            posa = posa + 2  # se pasa de dos en dos ya que son clave y valor
+            posb = posb + 2
+            print "\n",
+
+    def do_local(self):
+        lista = self.lista
+        NumTotal = len(lista) / 2
+        Contador = 0
+        posa = 0
+        posb = 1
+        while Contador < NumTotal:
+            etiqueta = lista[posa]
+            val = lista[posb]
+            for atributo, valor in val.items():
+                if 'src' == atributo and "http" in valor:
+                    recurso = valor
+                    os.system("wget -q " + recurso)
+                    # separo cadena cada / quedo con el final de cadena
+                    recurso = recurso.split("/")[-1]
+                    val[atributo] = recurso
+            Contador = Contador + 1
+            posa = posa + 2
+            posb = posb + 2
 
 
 if __name__ == "__main__":
-
     fich = autenticar(sys.argv)
-    parser = make_parser()
-    smallHandler = smallsmilhandler.SmallSMILHandler()
-    parser.setContentHandler(smallHandler)
-    parser.parse(open(fich))
-    lista = smallHandler.get_tags()
-    hacer_local(lista)
-    print listado(lista)
+    KarLocal = KaraokeLocal(autenticar(fich))
+    KarLocal.__str__()
+    KarLocal.do_local()
+    KarLocal.__str__()

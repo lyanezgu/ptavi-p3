@@ -28,6 +28,7 @@ class SmallSMILHandler(ContentHandler):
             self.RootLay['background-color'] = atributo
             self.lista.append('root-layout')
             self.lista.append(self.RootLay)
+            self.RootLay = {}
 
         if name == 'region':
             atributo = attrs.get('id', "")
@@ -42,6 +43,7 @@ class SmallSMILHandler(ContentHandler):
             self.Reg['right'] = atributo
             self.lista.append('region')
             self.lista.append(self.Reg)
+            self.Reg = {}
 
         if name == 'img':
 
@@ -55,6 +57,7 @@ class SmallSMILHandler(ContentHandler):
             self.Img['dur'] = atributo
             self.lista.append('img')
             self.lista.append(self.Img)
+            self.Img = {}
 
         if name == 'audio':
 
@@ -66,6 +69,7 @@ class SmallSMILHandler(ContentHandler):
             self.Audio['dur'] = atributo
             self.lista.append('audio')
             self.lista.append(self.Audio)
+            self.Audio = {}
 
         if name == 'textstream':
             atributo = attrs.get('src', "")
@@ -74,6 +78,7 @@ class SmallSMILHandler(ContentHandler):
             self.TextS['region'] = atributo
             self.lista.append('textstream')
             self.lista.append(self.TextS)
+            self.TextS = {}
 
     def get_tags(self):
         return self.lista

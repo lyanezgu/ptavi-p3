@@ -3,7 +3,8 @@
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
 
-class SmallSMILHandler(ContentHandler)
+
+class SmallSMILHandler(ContentHandler):
 
 	def __init__ (self):
 		#defino un diccionario para cada etiqueta y lo meto en nuna lista
@@ -17,7 +18,7 @@ class SmallSMILHandler(ContentHandler)
 
 	def startElement(self, name, attrs):
 
-		if name = 'root-layout':
+		if name == 'root-layout':
 
 			atributo=attrs.get('width',"") #coger el valor del atributo
 			self.RootLay['width']=atributo #almacena el atributo en dicc
@@ -28,7 +29,7 @@ class SmallSMILHandler(ContentHandler)
 			self.lista.append('root-layout')
 			self.lista.append(self.RootLay)
 
-		if name = 'region':
+		if name == 'region':
 			atributo=attrs.get('id',"") 
 			self.Reg['id']=atributo
 			atributo=attrs.get('top',"") 
@@ -41,21 +42,21 @@ class SmallSMILHandler(ContentHandler)
 			self.Reg['right']=atributo
 			self.lista.append('region')
 			self.lista.append(self.Reg)
-
-		if name = 'img':
+			
+		if name == 'img':
 
 			atributo=attrs.get('src',"") 
-			self.Reg['src']=atributo
+			self.Img['src']=atributo
 			atributo=attrs.get('region',"") 
-			self.Reg['region']=atributo
+			self.Img['region']=atributo
 			atributo=attrs.get('begin',"") 
-			self.Reg['begin']=atributo
+			self.Img['begin']=atributo
 			atributo=attrs.get('dur',"") 
-			self.Reg['dur']=atributo
+			self.Img['dur']=atributo
 			self.lista.append('img')
-			self.lista.append(self.Reg)
-
-		if name = 'audio':
+			self.lista.append(self.Img)
+			
+		if name == 'audio':
 			atributo=attrs.get('src',"") 
 			self.Audio['src']=atributo
 			atributo=attrs.get('begin',"") 
@@ -64,8 +65,8 @@ class SmallSMILHandler(ContentHandler)
 			self.Audio['dur']=atributo
 			self.lista.append('audio')
 			self.lista.append(self.Audio)
-
-		if name = 'textstream':
+			
+		if name == 'textstream':
 			atributo=attrs.get('src',"") 
 			self.TextS['src']=atributo
 			atributo=attrs.get('region',"") 
@@ -74,30 +75,13 @@ class SmallSMILHandler(ContentHandler)
 			self.lista.append(self.TextS)
 
 
-	def get_tags(self)
+	def get_tags(self):
 		return self.lista
 
-if __name__ == "__name__":
+if __name__ == "__main__":
 
 	parser= make_parser()
 	smallHandler= SmallSMILHandler()
 	parser.setContentHandler(smallHandler)
-	parser.parse(open('karaoke.smil')
-	print.smallHandler.get_tags()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	parser.parse(open('karaoke.smil'))
+	print smallHandler.get_tags()

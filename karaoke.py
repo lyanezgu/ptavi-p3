@@ -17,14 +17,13 @@ def autenticar (argument):
             sys.exit("Usage: python karaoke.py file.smile")
     return fich
 def listado (lista):
-    NumTotal = len(lista) / 2
-    print NumTotal
+    NumTotal = len(lista) / 2 
     Contador = 0
     posa = 0
     posb = 1
     while Contador < NumTotal:
         etiqueta = lista[posa]
-        val = lista[posb]
+        val = lista[posb] # contiene el atributo y el valor 
         print etiqueta + "\t",
 
         for atributo, valor in val.items():
@@ -32,11 +31,28 @@ def listado (lista):
                 print atributo + "=" + '"' + valor + '"' + "\t",
 
         Contador = Contador + 1
-        posa = posa + 2
+        posa = posa + 2 # se pasa de dos en dos ya que son clave y valor
         posb = posb + 2
         print "\n",
 
-
+def hacer_local (lista):
+    NumTotal = len(lista) / 2
+    Contador = 0
+    posa = 0
+    posb = 1
+    while Contador < NumTotal:
+        etiqueta = lista[posa]
+        val = lista[posb]
+        for atributo, valor in val.items():
+            if 'src' == atributo and "http" in valor:
+                recurso = valor
+                os.system("wget -q " + recurso)
+                recurso = recurso.split("/")[-1] # separo la cadena en cada / y me quedo con el ultimo cacho de la cadena
+                val[atributo] = recurso
+        Contador = Contador + 1
+        posa = posa + 2
+        posb = posb + 2  
+        
 
 
 if __name__ == "__main__":
@@ -47,4 +63,6 @@ if __name__ == "__main__":
     parser.setContentHandler(smallHandler)
     parser.parse(open(fich))
     lista = smallHandler.get_tags()
-    print listado(lista)    
+    hacer_local(lista)
+    print listado(lista)
+        

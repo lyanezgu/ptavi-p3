@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from xml.smil import make_parser
-from xml.smil.handler import ContentHandler
+from xml.sax import make_parser
+from xml.sax.handler import ContentHandler
 
 class SmallSMILHandler(ContentHandler)
 
@@ -74,8 +74,15 @@ class SmallSMILHandler(ContentHandler)
 			self.lista.append(self.TextS)
 
 
+	def get_tags(self)
+		return self.lista
 
+if __name__ == "__name__":
 
+	parser= make_parser()
+	smallHandler= SmallSMILHandler()
+	parser.setContentHandler(smallHandler)
+	parser.parse(open('karaoke.smil')
 
 
 

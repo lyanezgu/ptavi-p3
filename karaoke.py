@@ -34,19 +34,21 @@ class KaraokeLocal(smallsmilhandler.SmallSMILHandler):
         Contador = 0
         posa = 0
         posb = 1
+        salida = ""
         while Contador < NumTotal:
             etiqueta = lista[posa]
             val = lista[posb]  # contiene el atributo y el valor
-            print etiqueta + "\t",
+            salida += etiqueta + "\t"
 
             for atributo, valor in val.items():
                 if valor != "":  # cuabdo hay clave y valor
-                    print atributo + "=" + '"' + valor + '"' + "\t",
+                    salida += atributo + "=" + '"' + valor + '"' + "\t"
 
             Contador = Contador + 1
             posa = posa + 2  # se pasa de dos en dos ya que son clave y valor
             posb = posb + 2
-            print "\n",
+            salida += "\n"
+        return salida
 
     def do_local(self):
         lista = self.lista
@@ -72,6 +74,6 @@ class KaraokeLocal(smallsmilhandler.SmallSMILHandler):
 if __name__ == "__main__":
     fich = autenticar(sys.argv)
     KarLocal = KaraokeLocal(autenticar(fich))
-    KarLocal.__str__()
+    print KarLocal
     KarLocal.do_local()
-    KarLocal.__str__()
+    print KarLocal
